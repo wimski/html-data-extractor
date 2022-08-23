@@ -1,9 +1,11 @@
-<div id="main">
-    <section class="foo" data-thing="{{ attr }}">
-        {{ text }}
-    </section>
-</div>
-<section class="foo">{{ notfound }}</section>
-<ul class="list">
-    <li>{{ item }}</li>
-</ul>
+<extract>
+    <div id="main">
+        <section class="foo" data-thing="{{ attr }}">
+            {{ text }}
+        </section>
+    </div>
+    <div class="bar">{{ notfound }}</div>
+    <ul class="list">
+        <li>{{ item }}</li>
+    </ul>
+</extract>

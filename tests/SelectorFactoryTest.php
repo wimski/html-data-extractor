@@ -39,4 +39,24 @@ class SelectorFactoryTest extends TestCase
 
         self::assertSame("html > body > section#main.container.wide[data-foo='bar'] > p[data-bar] > span", $selector);
     }
+
+    /**
+     * @test
+     */
+    public function it_stops_making_a_selector_at_an_extract_parent(): void
+    {
+        $html = (new Crawler('
+            <extract>
+                <section id="main" class="container wide" data-foo="bar">
+                    <p data-bar="{{ bar }}">
+                        <span>{{ value }}</span>
+                    </p>
+                </section>
+            </extract>
+        '))->filter('span');
+
+        $selector = $this->factory->make($html);
+
+        self::assertSame("section#main.container.wide[data-foo='bar'] > p[data-bar] > span", $selector);
+    }
 }

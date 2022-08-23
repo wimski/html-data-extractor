@@ -26,6 +26,10 @@ class SelectorFactory implements SelectorFactoryInterface
         $selector = $this->makeSelectorForNode($node);
 
         foreach ($html->ancestors() as $ancestor) {
+            if ($ancestor->nodeName === SelectorFactoryInterface::EXTRACT_TAG) {
+                break;
+            }
+
             $selector = $this->makeSelectorForNode($ancestor) . ' > ' . $selector;
         }
 
