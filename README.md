@@ -1,5 +1,6 @@
 [![PHPStan](https://github.com/wimski/html-data-extractor/actions/workflows/phpstan.yml/badge.svg)](https://github.com/wimski/html-data-extractor/actions/workflows/phpstan.yml)
 [![PHPUnit](https://github.com/wimski/html-data-extractor/actions/workflows/phpunit.yml/badge.svg)](https://github.com/wimski/html-data-extractor/actions/workflows/phpunit.yml)
+[![Coverage Status](https://coveralls.io/repos/github/wimski/html-data-extractor/badge.svg?branch=master)](https://coveralls.io/github/wimski/html-data-extractor?branch=master)
 
 # HTML Data Extractor
 
