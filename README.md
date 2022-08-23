@@ -1,3 +1,6 @@
+[![PHPStan](https://github.com/wimski/html-data-extractor/actions/workflows/phpstan.yml/badge.svg)](https://github.com/wimski/html-data-extractor/actions/workflows/phpstan.yml)
+[![PHPUnit](https://github.com/wimski/html-data-extractor/actions/workflows/phpunit.yml/badge.svg)](https://github.com/wimski/html-data-extractor/actions/workflows/phpunit.yml)
+
 # HTML Data Extractor
 
 Extract data from an HTML string by using placeholders in a reverse template.
