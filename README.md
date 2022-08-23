@@ -7,12 +7,17 @@
 
 Extract data from an HTML string by using placeholders in a reverse template.
 
+* [Changelog](#changelog)
 * [Setup](#setup)
   * [Install](#install)
   * [Bindings](#bindings)
     * [Service Container](#service-container)
     * [Manually](#manually)
 * [Usage](#usage)
+
+## Changelog
+
+[View the changelog.](./CHANGELOG.md)
 
 ## Setup
 
