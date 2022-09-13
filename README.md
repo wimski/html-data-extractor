@@ -33,36 +33,45 @@ composer require wimski/html-data-extractor
 
 If you're using a service container, you can create (singleton) bindings for the following interfaces:
 
-| Interface                                                          | Concrete                                        |
-|--------------------------------------------------------------------|-------------------------------------------------|
-| `Wimski\HtmlDataExtractor\Contracts\ExtractableFinderInterface`    | `Wimski\HtmlDataExtractor\ExtractableFinder`    |
-| `Wimski\HtmlDataExtractor\Contracts\ExtractableProcessorInterface` | `Wimski\HtmlDataExtractor\ExtractableProcessor` |
-| `Wimski\HtmlDataExtractor\Contracts\HtmlDataExtractorInterface`    | `Wimski\HtmlDataExtractor\HtmlDataExtractor`    |
-| `Wimski\HtmlDataExtractor\Contracts\PlaceholderExtractorInterface` | `Wimski\HtmlDataExtractor\PlaceholderExtractor` |
-| `Wimski\HtmlDataExtractor\Contracts\SelectorFactoryInterface`      | `Wimski\HtmlDataExtractor\SelectorFactory`      |
+| Interface                                                                         | Concrete                                                       |
+|-----------------------------------------------------------------------------------|----------------------------------------------------------------|
+| `Wimski\HtmlDataExtractor\Contracts\Extractors\GroupNameExtractorInterface`       | `Wimski\HtmlDataExtractor\Extractors\GroupNameExtractor`       |
+| `Wimski\HtmlDataExtractor\Contracts\Extractors\HtmlDataExtractorInterface`        | `Wimski\HtmlDataExtractor\Extractors\HtmlDataExtractor`        |
+| `Wimski\HtmlDataExtractor\Contracts\Extractors\PlaceholderExtractorInterface`     | `Wimski\HtmlDataExtractor\Extractors\PlaceholderExtractor`     |
+| `Wimski\HtmlDataExtractor\Contracts\Extractors\PlaceholderNameExtractorInterface` | `Wimski\HtmlDataExtractor\Extractors\PlaceholderNameExtractor` |
+| `Wimski\HtmlDataExtractor\Contracts\Factories\ExtractableNodeFactoryInterface`    | `Wimski\HtmlDataExtractor\Factories\ExtractableNodeFactory`    |
+| `Wimski\HtmlDataExtractor\Contracts\Factories\GroupNameFactoryInterface`          | `Wimski\HtmlDataExtractor\Factories\GroupNameFactory`          |
+| `Wimski\HtmlDataExtractor\Contracts\Factories\SelectorFactoryInterface`           | `Wimski\HtmlDataExtractor\Factories\SelectorFactory`           |
+| `Wimski\HtmlDataExtractor\Contracts\Processors\ExtractableNodeProcessorInterface` | `Wimski\HtmlDataExtractor\Processors\ExtractableNodeProcessor` |
 
 #### Manually
 
 Or you can set up everything manually like this:
 
 ```php
-use Wimski\HtmlDataExtractor\ExtractableFinder;
-use Wimski\HtmlDataExtractor\ExtractableProcessor;
-use Wimski\HtmlDataExtractor\HtmlDataExtractor;
-use Wimski\HtmlDataExtractor\PlaceholderExtractor;
-use Wimski\HtmlDataExtractor\SelectorFactory;
+use Wimski\HtmlDataExtractor\Extractors\GroupNameExtractor;
+use Wimski\HtmlDataExtractor\Extractors\HtmlDataExtractor;
+use Wimski\HtmlDataExtractor\Template\TemplateDataExtractor;
+use Wimski\HtmlDataExtractor\Extractors\PlaceholderNameExtractor;
+use Wimski\HtmlDataExtractor\Template\TemplateParser;
+use Wimski\HtmlDataExtractor\Factories\GroupNameFactory;
+use Wimski\HtmlDataExtractor\Factories\SelectorFactory;
+use Wimski\HtmlDataExtractor\Source\SourceParser;
 
-$placeholderExtractor = new PlaceholderExtractor();
-$selectorFactory      = new SelectorFactory($placeholderExtractor);
-$extractableFinder    = new ExtractableFinder($placeholderExtractor, $selectorFactory);
-$extractableProcessor = new ExtractableProcessor();
+$placeholderNameExtractor = new PlaceholderNameExtractor();
+$placeholderExtractor     = new TemplateDataExtractor($placeholderNameExtractor);
+$groupNameExtractor       = new GroupNameExtractor();
+$groupNameFactory         = new GroupNameFactory($groupNameExtractor);
+$selectorFactory          = new SelectorFactory($placeholderNameExtractor);
+$extractableNodeFactory   = new TemplateParser($selectorFactory, $groupNameFactory, $placeholderExtractor);
+$extractableNodeProcessor = new SourceParser();
 
 $htmlDataExtractor = new HtmlDataExtractor(
-    $extractableFinder,
-    $extractableProcessor,
+    $extractableNodeFactory,
+    $extractableNodeProcessor,
 );
 ```
 
 ## Usage
 
-Comprehensive documentation has to be written. See [`HtmlDataExtractorTest`](./tests/HtmlDataExtractorTest.php) for an example in the meantime.
+Comprehensive documentation has to be written. See [`HtmlDataExtractorTest`](./tests/Extractors/HtmlDataExtractorTest.php) for an example in the meantime.

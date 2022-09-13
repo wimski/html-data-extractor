@@ -1,0 +1,15 @@
+<div class="tree">
+    <ul>
+        {% group families %}
+        <li>
+            <span class="name">{{ name }}</span>
+            {% group members %}
+            <span class="member">
+                <span class="first-name">{{ first_name }}</span>
+                <span class="last-name">{{ last_name }}</span>
+            </span>
+            {% endgroup %}
+        </li>
+        {% endgroup %}
+    </ul>
+</div>
