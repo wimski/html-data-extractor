@@ -47,13 +47,13 @@ class TemplateDataExtractor implements TemplateDataExtractorInterface
             return null;
         }
 
-        $matches = $this->placeholderMatcher->getPlaceholderMatch($firstChild->textContent);
+        $match = $this->placeholderMatcher->getPlaceholderMatch($firstChild->textContent);
 
-        if (empty($matches)) {
+        if (! $match) {
             return null;
         }
 
-        return new TemplateTextData($matches[0]->getPartialMatch());
+        return new TemplateTextData($match->getPartialMatch());
     }
 
     /**
@@ -69,14 +69,14 @@ class TemplateDataExtractor implements TemplateDataExtractorInterface
 
         /** @var DOMAttr $attribute */
         foreach ($attributes as $attribute) {
-            $matches = $this->placeholderMatcher->getPlaceholderMatch($attribute->value);
+            $match = $this->placeholderMatcher->getPlaceholderMatch($attribute->value);
 
-            if (empty($matches)) {
+            if (! $match) {
                 continue;
             }
 
             $placeholders[] = new TemplateAttributeData(
-                $matches[0]->getPartialMatch(),
+                $match->getPartialMatch(),
                 $attribute->name,
             );
         }

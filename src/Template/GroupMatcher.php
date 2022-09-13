@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Wimski\HtmlDataExtractor\Template;
 
+use Wimski\HtmlDataExtractor\Contracts\PregMatchInterface;
 use Wimski\HtmlDataExtractor\Contracts\Template\GroupMatcherInterface;
 
 class GroupMatcher implements GroupMatcherInterface
@@ -20,9 +21,15 @@ class GroupMatcher implements GroupMatcherInterface
         return $this->matches($this->getGroupEndPattern(), $value);
     }
 
-    public function getGroupStartMatches(string $value): array
+    public function getGroupStartMatch(string $value): ?PregMatchInterface
     {
-        return $this->getMatches($this->getGroupStartPattern(), $value);
+        $matches = $this->getMatches($this->getGroupStartPattern(), $value);
+
+        if (empty($matches)) {
+            return null;
+        }
+
+        return $matches[0];
     }
 
     protected function getGroupStartPattern(): string

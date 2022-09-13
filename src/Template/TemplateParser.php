@@ -17,10 +17,10 @@ class TemplateParser implements TemplateParserInterface
 {
     public function __construct(
         protected TemplateValidatorInterface $validator,
-        protected SelectorFactoryInterface $selectorFactory,
         protected GroupMatcherInterface $groupMatcher,
-        protected TemplateDataExtractorInterface $templateDataExtractor,
+        protected SelectorFactoryInterface $selectorFactory,
         protected TemplateRootNodeExtractorInterface $templateRootNodeExtractor,
+        protected TemplateDataExtractorInterface $templateDataExtractor,
     ) {
     }
 
@@ -76,14 +76,14 @@ class TemplateParser implements TemplateParserInterface
         /** @var string $nodeValue */
         $nodeValue = $previous->nodeValue;
 
-        $matches = $this->groupMatcher->getGroupStartMatches($nodeValue);
+        $match = $this->groupMatcher->getGroupStartMatch($nodeValue);
 
-        if (empty($matches)) {
+        if (! $match) {
             $this->parseNextTemplateNode($node, $parent);
             return;
         }
 
-        $templateNode->makeGroup($matches[0]->getPartialMatch());
+        $templateNode->makeGroup($match->getPartialMatch());
 
         $nextNode = $node->nextSibling;
 
