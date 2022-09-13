@@ -9,10 +9,5 @@ use Wimski\HtmlDataExtractor\Contracts\PregMatchInterface;
 interface PlaceholderMatcherInterface
 {
     public function matchesPlaceholder(string $value): bool;
-
-    /**
-     * @param string $value
-     * @return array<int, PregMatchInterface>
-     */
-    public function getPlaceholderMatch(string $value): array;
+    public function getPlaceholderMatch(string $value): ?PregMatchInterface;
 }

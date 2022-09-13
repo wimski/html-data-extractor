@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Wimski\HtmlDataExtractor\Template;
 
+use Wimski\HtmlDataExtractor\Contracts\PregMatchInterface;
 use Wimski\HtmlDataExtractor\Contracts\Template\PlaceholderMatcherInterface;
 
 class PlaceholderMatcher implements PlaceholderMatcherInterface
@@ -15,9 +16,15 @@ class PlaceholderMatcher implements PlaceholderMatcherInterface
         return $this->matches($this->getPlaceholderPattern(), $value);
     }
 
-    public function getPlaceholderMatch(string $value): array
+    public function getPlaceholderMatch(string $value): ?PregMatchInterface
     {
-        return $this->getMatches($this->getPlaceholderPattern(), $value);
+        $matches = $this->getMatches($this->getPlaceholderPattern(), $value);
+
+        if (empty($matches)) {
+            return null;
+        }
+
+        return $matches[0];
     }
 
     protected function getPlaceholderPattern(): string

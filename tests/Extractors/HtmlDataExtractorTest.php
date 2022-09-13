@@ -37,10 +37,10 @@ class HtmlDataExtractorTest extends TestCase
 
         $templateParser = new TemplateParser(
             $templateValidator,
-            $selectorFactory,
             $groupMatcher,
-            $templateDataExtractor,
+            $selectorFactory,
             $templateRootNodeExtractor,
+            $templateDataExtractor,
         );
 
         $sourceParser = new SourceParser();
