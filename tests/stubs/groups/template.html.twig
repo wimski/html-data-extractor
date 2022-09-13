@@ -1,0 +1,20 @@
+<div class="item">
+    <div class="meta">
+        <span class="name">{{ name }}</span>
+        <span class="description">{{ description }}</span>
+    </div>
+    <ul>
+        {% group authors %}
+        <li>
+            <span class="first-name">{{ first_name }}</span>
+            <span class="last-name">{{ last_name }}</span>
+        </li>
+        {% endgroup %}
+    </ul>
+    <img src="{{ image }}">
+    <div class="links">
+        {% group links %}
+        <a href="{{ url }}" target="_blank">{{ name }}</a>
+        {% endgroup %}
+    </div>
+</div>
