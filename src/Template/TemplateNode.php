@@ -56,11 +56,6 @@ class TemplateNode implements TemplateNodeInterface
         $this->children[] = $child;
     }
 
-    public function hasChildren(): bool
-    {
-        return ! empty($this->children);
-    }
-
     public function getData(): array
     {
         return $this->data;
@@ -69,11 +64,6 @@ class TemplateNode implements TemplateNodeInterface
     public function addData(TemplateDataInterface $data): void
     {
         $this->data[] = $data;
-    }
-
-    public function hasData(): bool
-    {
-        return ! empty($this->data);
     }
 
     public function toArray(): array
