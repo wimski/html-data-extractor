@@ -6,8 +6,8 @@ namespace Wimski\HtmlDataExtractor\Extractors;
 
 use Exception;
 use Wimski\HtmlDataExtractor\Contracts\Extractors\HtmlDataExtractorInterface;
-use Wimski\HtmlDataExtractor\Contracts\Template\TemplateParserInterface;
 use Wimski\HtmlDataExtractor\Contracts\Source\SourceParserInterface;
+use Wimski\HtmlDataExtractor\Contracts\Template\TemplateParserInterface;
 use Wimski\HtmlDataExtractor\Exceptions\HtmlDataExtractionException;
 
 class HtmlDataExtractor implements HtmlDataExtractorInterface

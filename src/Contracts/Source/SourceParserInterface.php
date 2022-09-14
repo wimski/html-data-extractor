@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Wimski\HtmlDataExtractor\Contracts\Source;
 
-use Wimski\HtmlDataExtractor\Contracts\Source\SourceRowInterface;
 use Wimski\HtmlDataExtractor\Contracts\Template\TemplateNodeInterface;
 
 interface SourceParserInterface

@@ -15,7 +15,7 @@ use Wimski\HtmlDataExtractor\Contracts\Template\TemplateTextDataInterface;
 class TemplateDataExtractor implements TemplateDataExtractorInterface
 {
     public function __construct(
-        protected \Wimski\HtmlDataExtractor\Contracts\Matching\PlaceholderMatcherInterface $placeholderMatcher,
+        protected PlaceholderMatcherInterface $placeholderMatcher,
     ) {
     }
 
