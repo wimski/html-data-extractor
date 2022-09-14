@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Wimski\HtmlDataExtractor\Contracts\Template;
 
 use Wimski\HtmlDataExtractor\Contracts\Template\Data\TemplateDataInterface;
+use Wimski\HtmlDataExtractor\Exceptions\TemplateNodeChildAlreadyExistsException;
+use Wimski\HtmlDataExtractor\Exceptions\TemplateNodeDataAlreadyExistsException;
 
 interface TemplateNodeInterface
 {
@@ -18,12 +20,24 @@ interface TemplateNodeInterface
      * @return array<int, TemplateNodeInterface>
      */
     public function getChildren(): array;
+
+    /**
+     * @param TemplateNodeInterface $child
+     * @return void
+     * @throws TemplateNodeChildAlreadyExistsException
+     */
     public function addChild(TemplateNodeInterface $child): void;
 
     /**
      * @return array<int, TemplateDataInterface>
      */
     public function getData(): array;
+
+    /**
+     * @param TemplateDataInterface $data
+     * @return void
+     * @throws TemplateNodeDataAlreadyExistsException
+     */
     public function addData(TemplateDataInterface $data): void;
 
     /**

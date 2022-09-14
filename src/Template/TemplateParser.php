@@ -12,6 +12,9 @@ use Wimski\HtmlDataExtractor\Contracts\Template\TemplateNodeInterface;
 use Wimski\HtmlDataExtractor\Contracts\Template\TemplateParserInterface;
 use Wimski\HtmlDataExtractor\Contracts\Template\TemplateRootNodeExtractorInterface;
 use Wimski\HtmlDataExtractor\Contracts\Template\TemplateValidatorInterface;
+use Wimski\HtmlDataExtractor\Exceptions\TemplateNodeChildAlreadyExistsException;
+use Wimski\HtmlDataExtractor\Exceptions\TemplateNodeDataAlreadyExistsException;
+use Wimski\HtmlDataExtractor\Exceptions\TemplateParsingException;
 
 class TemplateParser implements TemplateParserInterface
 {
@@ -33,6 +36,11 @@ class TemplateParser implements TemplateParserInterface
         return $this->makeTemplateNode($node);
     }
 
+    /**
+     * @param DOMNode $node
+     * @return TemplateNodeInterface
+     * @throws TemplateParsingException
+     */
     protected function makeTemplateNode(DOMNode $node): TemplateNodeInterface
     {
         $templateNode = new TemplateNode(
@@ -42,7 +50,11 @@ class TemplateParser implements TemplateParserInterface
         $data = $this->templateDataExtractor->extract($node);
 
         foreach ($data as $item) {
-            $templateNode->addData($item);
+            try {
+                $templateNode->addData($item);
+            } catch (TemplateNodeDataAlreadyExistsException $exception) {
+                throw new TemplateParsingException($exception);
+            }
         }
 
         $firstChild = $node->firstChild;
@@ -54,6 +66,12 @@ class TemplateParser implements TemplateParserInterface
         return $templateNode;
     }
 
+    /**
+     * @param DOMNode               $node
+     * @param TemplateNodeInterface $parent
+     * @return void
+     * @throws TemplateParsingException
+     */
     protected function parseNode(DOMNode $node, TemplateNodeInterface $parent): void
     {
         if ($node->nodeType !== XML_ELEMENT_NODE) {
@@ -63,7 +81,11 @@ class TemplateParser implements TemplateParserInterface
 
         $templateNode = $this->makeTemplateNode($node);
 
-        $parent->addChild($templateNode);
+        try {
+            $parent->addChild($templateNode);
+        } catch (TemplateNodeChildAlreadyExistsException $exception) {
+            throw new TemplateParsingException($exception);
+        }
 
         $previous = $node->previousSibling;
 
