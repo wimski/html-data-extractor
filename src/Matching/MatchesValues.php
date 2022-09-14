@@ -20,7 +20,7 @@ trait MatchesValues
      */
     protected function getMatches(string $pattern, string $value): array
     {
-        if (preg_match_all($pattern, $value, $matches, PREG_SET_ORDER) === 1) {
+        if (preg_match_all($pattern, $value, $matches, PREG_SET_ORDER) >= 1) {
             return $this->transformMatches($matches);
         }
 

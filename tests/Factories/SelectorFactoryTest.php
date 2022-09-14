@@ -7,8 +7,8 @@ namespace Wimski\HtmlDataExtractor\Tests\Factories;
 use DOMNode;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
-use Wimski\HtmlDataExtractor\Extractors\PlaceholderNameExtractor;
 use Wimski\HtmlDataExtractor\Factories\SelectorFactory;
+use Wimski\HtmlDataExtractor\Matching\PlaceholderMatcher;
 
 class SelectorFactoryTest extends TestCase
 {
@@ -19,7 +19,7 @@ class SelectorFactoryTest extends TestCase
         parent::setUp();
 
         $this->factory = new SelectorFactory(
-            new PlaceholderNameExtractor(),
+            new PlaceholderMatcher(),
         );
     }
 
@@ -35,6 +35,6 @@ class SelectorFactoryTest extends TestCase
 
         $selector = $this->factory->make($node);
 
-        self::assertSame("div#main.container.wide[data-this='foo'][data-that][data-placeholder]", $selector);
+        self::assertSame("div.container.wide[data-placeholder][data-that][data-this='foo']#main", $selector);
     }
 }

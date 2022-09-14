@@ -10,6 +10,6 @@ class HtmlDataExtractionException extends Exception
 {
     public function __construct(Exception $previous)
     {
-        parent::__construct('', 0, $previous);
+        parent::__construct('Extracting HTML data failed', 0, $previous);
     }
 }
