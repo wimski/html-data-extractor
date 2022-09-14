@@ -19,14 +19,12 @@ interface TemplateNodeInterface
      */
     public function getChildren(): array;
     public function addChild(TemplateNodeInterface $child): void;
-    public function hasChildren(): bool;
 
     /**
      * @return array<int, TemplateDataInterface>
      */
     public function getData(): array;
     public function addData(TemplateDataInterface $data): void;
-    public function hasData(): bool;
 
     /**
      * @return array<string, mixed>

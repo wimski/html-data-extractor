@@ -70,13 +70,7 @@ class SourceParser implements SourceParserInterface
         TemplateNodeInterface $node,
         SourceRowInterface $row,
     ): void {
-        if ($node->hasData()) {
-            $data = $this->getPlaceholderData($html, $node);
-
-            foreach ($data as $placeholder => $value) {
-                $row->addData($placeholder, $value);
-            }
-        }
+        $this->addData($html, $node, $row);
 
         foreach ($node->getChildren() as $child) {
             if ($child->isGroup()) {
@@ -93,26 +87,20 @@ class SourceParser implements SourceParserInterface
         }
     }
 
-    /**
-     * @param Crawler               $html
-     * @param TemplateNodeInterface $node
-     * @return array<string, string>
-     */
-    protected function getPlaceholderData(Crawler $html, TemplateNodeInterface $node): array
-    {
-        $data = [];
-
+    protected function addData(
+        Crawler $html,
+        TemplateNodeInterface $node,
+        SourceRowInterface $row,
+    ): void {
         foreach ($node->getData() as $item) {
             if ($item instanceof TemplateTextDataInterface) {
-                $data[$item->getPlaceholder()] = $html->text();
+                $row->addData($item->getPlaceholder(), $html->text());
             }
 
             if ($item instanceof TemplateAttributeDataInterface) {
-                $data[$item->getPlaceholder()] = $this->getAttributeData($html, $item);
+                $row->addData($item->getPlaceholder(), $this->getAttributeData($html, $item));
             }
         }
-
-        return $data;
     }
 
     protected function getAttributeData(Crawler $html, TemplateAttributeDataInterface $data): string
