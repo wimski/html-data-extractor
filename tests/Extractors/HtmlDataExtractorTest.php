@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Wimski\HtmlDataExtractor\Tests\Extractors;
 
 use PHPUnit\Framework\TestCase;
-use Wimski\HtmlDataExtractor\Contracts\Source\SourceRowInterface;
+use Wimski\HtmlDataExtractor\Contracts\Source\Data\SourceRowInterface;
 use Wimski\HtmlDataExtractor\Extractors\HtmlDataExtractor;
 use Wimski\HtmlDataExtractor\Factories\SelectorFactory;
 use Wimski\HtmlDataExtractor\HtmlLoader;

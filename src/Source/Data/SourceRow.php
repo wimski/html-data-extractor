@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Wimski\HtmlDataExtractor\Source;
+namespace Wimski\HtmlDataExtractor\Source\Data;
 
-use Wimski\HtmlDataExtractor\Contracts\Source\SourceDataInterface;
-use Wimski\HtmlDataExtractor\Contracts\Source\SourceGroupInterface;
-use Wimski\HtmlDataExtractor\Contracts\Source\SourceRowInterface;
+use Wimski\HtmlDataExtractor\Contracts\Source\Data\SourceDataInterface;
+use Wimski\HtmlDataExtractor\Contracts\Source\Data\SourceGroupInterface;
+use Wimski\HtmlDataExtractor\Contracts\Source\Data\SourceRowInterface;
 use Wimski\HtmlDataExtractor\Exceptions\ExtractionDataNotFoundException;
 use Wimski\HtmlDataExtractor\Exceptions\ExtractionGroupNotFoundException;
 use Wimski\HtmlDataExtractor\Exceptions\FirstValueNotFoundException;
@@ -26,11 +26,6 @@ class SourceRow implements SourceRowInterface
     public function getGroups(): array
     {
         return $this->groups;
-    }
-
-    public function hasGroups(): bool
-    {
-        return ! empty($this->getGroups());
     }
 
     public function addGroup(SourceGroupInterface $group): void
@@ -56,11 +51,6 @@ class SourceRow implements SourceRowInterface
     public function getData(): array
     {
         return $this->data;
-    }
-
-    public function hasData(): bool
-    {
-        return ! empty($this->getData());
     }
 
     public function addData(string $placeholder, string $value): SourceDataInterface

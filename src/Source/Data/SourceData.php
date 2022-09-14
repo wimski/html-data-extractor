@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Wimski\HtmlDataExtractor\Source;
+namespace Wimski\HtmlDataExtractor\Source\Data;
 
-use Wimski\HtmlDataExtractor\Contracts\Source\SourceDataInterface;
+use Wimski\HtmlDataExtractor\Contracts\Source\Data\SourceDataInterface;
 
 class SourceData implements SourceDataInterface
 {

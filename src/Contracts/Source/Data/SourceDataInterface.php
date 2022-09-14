@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Wimski\HtmlDataExtractor\Contracts\Source;
+namespace Wimski\HtmlDataExtractor\Contracts\Source\Data;
 
 interface SourceDataInterface
 {
@@ -12,6 +12,5 @@ interface SourceDataInterface
      * @return array<int, string>
      */
     public function getValues(): array;
-
     public function addValue(string $value): void;
 }
