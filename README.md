@@ -5,14 +5,12 @@
 
 # HTML Data Extractor
 
-Extract data from an HTML string by using placeholders in a reverse template.
+This package lets you easily extract data from an HTML string by using a reverse template in [Twig](https://twig.symfony.com) style.
 
 * [Changelog](#changelog)
 * [Setup](#setup)
   * [Install](#install)
   * [Bindings](#bindings)
-    * [Service Container](#service-container)
-    * [Manually](#manually)
 * [Usage](#usage)
 
 ## Changelog
@@ -29,46 +27,41 @@ composer require wimski/html-data-extractor
 
 ### Bindings
 
-#### Service Container
-
-If you're using a service container, you can create (singleton) bindings for the following interfaces:
-
-| Interface                                                                         | Concrete                                                       |
-|-----------------------------------------------------------------------------------|----------------------------------------------------------------|
-| `Wimski\HtmlDataExtractor\Contracts\Extractors\GroupNameExtractorInterface`       | `Wimski\HtmlDataExtractor\Extractors\GroupNameExtractor`       |
-| `Wimski\HtmlDataExtractor\Contracts\Extractors\HtmlDataExtractorInterface`        | `Wimski\HtmlDataExtractor\Extractors\HtmlDataExtractor`        |
-| `Wimski\HtmlDataExtractor\Contracts\Extractors\PlaceholderExtractorInterface`     | `Wimski\HtmlDataExtractor\Extractors\PlaceholderExtractor`     |
-| `Wimski\HtmlDataExtractor\Contracts\Extractors\PlaceholderNameExtractorInterface` | `Wimski\HtmlDataExtractor\Extractors\PlaceholderNameExtractor` |
-| `Wimski\HtmlDataExtractor\Contracts\Factories\ExtractableNodeFactoryInterface`    | `Wimski\HtmlDataExtractor\Factories\ExtractableNodeFactory`    |
-| `Wimski\HtmlDataExtractor\Contracts\Factories\GroupNameFactoryInterface`          | `Wimski\HtmlDataExtractor\Factories\GroupNameFactory`          |
-| `Wimski\HtmlDataExtractor\Contracts\Factories\SelectorFactoryInterface`           | `Wimski\HtmlDataExtractor\Factories\SelectorFactory`           |
-| `Wimski\HtmlDataExtractor\Contracts\Processors\ExtractableNodeProcessorInterface` | `Wimski\HtmlDataExtractor\Processors\ExtractableNodeProcessor` |
-
-#### Manually
-
-Or you can set up everything manually like this:
-
 ```php
-use Wimski\HtmlDataExtractor\Extractors\GroupNameExtractor;
 use Wimski\HtmlDataExtractor\Extractors\HtmlDataExtractor;
-use Wimski\HtmlDataExtractor\Template\TemplateDataExtractor;
-use Wimski\HtmlDataExtractor\Extractors\PlaceholderNameExtractor;
-use Wimski\HtmlDataExtractor\Template\TemplateParser;
-use Wimski\HtmlDataExtractor\Factories\GroupNameFactory;
 use Wimski\HtmlDataExtractor\Factories\SelectorFactory;
+use Wimski\HtmlDataExtractor\HtmlLoader;
 use Wimski\HtmlDataExtractor\Source\SourceParser;
+use Wimski\HtmlDataExtractor\Matching\GroupMatcher;
+use Wimski\HtmlDataExtractor\Matching\PlaceholderMatcher;
+use Wimski\HtmlDataExtractor\Template\TemplateDataExtractor;
+use Wimski\HtmlDataExtractor\Template\TemplateGroupsValidator;
+use Wimski\HtmlDataExtractor\Template\TemplateParser;
+use Wimski\HtmlDataExtractor\Template\TemplateRootNodeExtractor;
+use Wimski\HtmlDataExtractor\Template\TemplateValidator;
 
-$placeholderNameExtractor = new PlaceholderNameExtractor();
-$placeholderExtractor     = new TemplateDataExtractor($placeholderNameExtractor);
-$groupNameExtractor       = new GroupNameExtractor();
-$groupNameFactory         = new GroupNameFactory($groupNameExtractor);
-$selectorFactory          = new SelectorFactory($placeholderNameExtractor);
-$extractableNodeFactory   = new TemplateParser($selectorFactory, $groupNameFactory, $placeholderExtractor);
-$extractableNodeProcessor = new SourceParser();
+$htmlLoader                = new HtmlLoader();
+$placeholderMatcher        = new PlaceholderMatcher();
+$groupMatcher              = new GroupMatcher();
+$templateGroupsValidator   = new TemplateGroupsValidator($htmlLoader, $groupMatcher);
+$templateValidator         = new TemplateValidator($templateGroupsValidator);
+$selectorFactory           = new SelectorFactory($placeholderMatcher);
+$templateDataExtractor     = new TemplateDataExtractor($placeholderMatcher);
+$templateRootNodeExtractor = new TemplateRootNodeExtractor($htmlLoader);
+
+$templateParser = new TemplateParser(
+    $templateValidator,
+    $groupMatcher,
+    $selectorFactory,
+    $templateRootNodeExtractor,
+    $templateDataExtractor,
+);
+
+$sourceParser = new SourceParser();
 
 $htmlDataExtractor = new HtmlDataExtractor(
-    $extractableNodeFactory,
-    $extractableNodeProcessor,
+    $templateParser,
+    $sourceParser,
 );
 ```
 
