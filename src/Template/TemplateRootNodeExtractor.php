@@ -23,7 +23,7 @@ class TemplateRootNodeExtractor implements TemplateRootNodeExtractorInterface
         $rootNode = $html->firstChild;
 
         if (! $rootNode || $rootNode->nodeType !== XML_ELEMENT_NODE) {
-            throw new TemplateValidationException('Missing a single valid root node');
+            throw new TemplateValidationException('The template is missing a single valid element root node');
         }
 
         return $rootNode;
