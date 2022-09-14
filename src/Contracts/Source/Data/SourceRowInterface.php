@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Wimski\HtmlDataExtractor\Contracts\Source\Data;
 
-use Wimski\HtmlDataExtractor\Exceptions\ExtractionDataNotFoundException;
-use Wimski\HtmlDataExtractor\Exceptions\ExtractionGroupNotFoundException;
-use Wimski\HtmlDataExtractor\Exceptions\FirstValueNotFoundException;
+use Wimski\HtmlDataExtractor\Exceptions\SourceRowGroupAlreadyExistsException;
 
 interface SourceRowInterface
 {
@@ -14,35 +12,19 @@ interface SourceRowInterface
      * @return array<int, SourceGroupInterface>
      */
     public function getGroups(): array;
-    public function addGroup(SourceGroupInterface $group): void;
 
     /**
-     * @param string $name
-     * @return SourceGroupInterface
-     * @throws ExtractionGroupNotFoundException
+     * @param SourceGroupInterface $group
+     * @return void
+     * @throws SourceRowGroupAlreadyExistsException
      */
-    public function getGroupByName(string $name): SourceGroupInterface;
+    public function addGroup(SourceGroupInterface $group): void;
 
     /**
      * @return array<int, SourceDataInterface>
      */
     public function getData(): array;
-    public function addData(string $placeholder, string $value): SourceDataInterface;
-
-    /**
-     * @param string $placeholder
-     * @return SourceDataInterface
-     * @throws ExtractionDataNotFoundException
-     */
-    public function getDataByPlaceholder(string $placeholder): SourceDataInterface;
-
-    /**
-     * @param string $placeholder
-     * @return string
-     * @throws ExtractionDataNotFoundException
-     * @throws FirstValueNotFoundException
-     */
-    public function getFirstValueByPlaceholder(string $placeholder): string;
+    public function addData(string $placeholder, string $value): void;
 
     /**
      * @return array<string, mixed>

@@ -7,9 +7,7 @@ namespace Wimski\HtmlDataExtractor\Source\Data;
 use Wimski\HtmlDataExtractor\Contracts\Source\Data\SourceDataInterface;
 use Wimski\HtmlDataExtractor\Contracts\Source\Data\SourceGroupInterface;
 use Wimski\HtmlDataExtractor\Contracts\Source\Data\SourceRowInterface;
-use Wimski\HtmlDataExtractor\Exceptions\ExtractionDataNotFoundException;
-use Wimski\HtmlDataExtractor\Exceptions\ExtractionGroupNotFoundException;
-use Wimski\HtmlDataExtractor\Exceptions\FirstValueNotFoundException;
+use Wimski\HtmlDataExtractor\Exceptions\SourceRowGroupAlreadyExistsException;
 
 class SourceRow implements SourceRowInterface
 {
@@ -30,22 +28,22 @@ class SourceRow implements SourceRowInterface
 
     public function addGroup(SourceGroupInterface $group): void
     {
-        try {
-            $this->getGroupByName($group->getName());
-        } catch (ExtractionGroupNotFoundException $exception) {
-            $this->groups[] = $group;
+        if ($this->hasGroup($group)) {
+            throw new SourceRowGroupAlreadyExistsException($this, $group);
         }
+
+        $this->groups[] = $group;
     }
 
-    public function getGroupByName(string $name): SourceGroupInterface
+    protected function hasGroup(SourceGroupInterface $group): bool
     {
-        foreach ($this->groups as $group) {
-            if ($group->getName() === $name) {
-                return $group;
+        foreach ($this->groups as $sourceGroup) {
+            if ($group->getName() === $sourceGroup->getName()) {
+                return true;
             }
         }
 
-        throw new ExtractionGroupNotFoundException($name);
+        return false;
     }
 
     public function getData(): array
@@ -53,43 +51,25 @@ class SourceRow implements SourceRowInterface
         return $this->data;
     }
 
-    public function addData(string $placeholder, string $value): SourceDataInterface
+    public function addData(string $placeholder, string $value): void
     {
-        try {
-            $data = $this->getDataByPlaceholder($placeholder);
-        } catch (ExtractionDataNotFoundException $exception) {
+        $data = null;
+
+        foreach ($this->data as $item) {
+            if ($item->getPlaceholder() === $placeholder) {
+                $data = $item;
+
+                break;
+            }
+        }
+
+        if (! $data) {
             $data = new SourceData($placeholder);
 
             $this->data[] = $data;
         }
 
         $data->addValue($value);
-
-        return $data;
-    }
-
-    public function getDataByPlaceholder(string $placeholder): SourceDataInterface
-    {
-        foreach ($this->data as $item) {
-            if ($item->getPlaceholder() === $placeholder) {
-                return $item;
-            }
-        }
-
-        throw new ExtractionDataNotFoundException($placeholder);
-    }
-
-    public function getFirstValueByPlaceholder(string $placeholder): string
-    {
-        $data = $this->getDataByPlaceholder($placeholder);
-
-        $values = $data->getValues();
-
-        if (empty($values)) {
-            throw new FirstValueNotFoundException($placeholder);
-        }
-
-        return $values[0];
     }
 
     public function toArray(): array
