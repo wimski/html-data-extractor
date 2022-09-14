@@ -11,6 +11,8 @@ use Wimski\HtmlDataExtractor\Contracts\Source\SourceParserInterface;
 use Wimski\HtmlDataExtractor\Contracts\Template\Data\TemplateAttributeDataInterface;
 use Wimski\HtmlDataExtractor\Contracts\Template\Data\TemplateTextDataInterface;
 use Wimski\HtmlDataExtractor\Contracts\Template\TemplateNodeInterface;
+use Wimski\HtmlDataExtractor\Exceptions\SourceParsingException;
+use Wimski\HtmlDataExtractor\Exceptions\SourceRowGroupAlreadyExistsException;
 use Wimski\HtmlDataExtractor\Source\Data\SourceGroup;
 use Wimski\HtmlDataExtractor\Source\Data\SourceRow;
 
@@ -28,6 +30,7 @@ class SourceParser implements SourceParserInterface
      * @param Crawler               $html
      * @param TemplateNodeInterface $node
      * @return array<int, SourceRowInterface>
+     * @throws SourceParsingException
      */
     protected function makeRows(
         Crawler $html,
@@ -46,12 +49,18 @@ class SourceParser implements SourceParserInterface
         return $rows;
     }
 
+    /**
+     * @param Crawler               $html
+     * @param TemplateNodeInterface $node
+     * @return SourceGroupInterface
+     * @throws SourceParsingException
+     */
     protected function makeGroup(
         Crawler $html,
         TemplateNodeInterface $node,
     ): SourceGroupInterface {
         /** @var string $groupName */
-        $groupName  = $node->getGroupName();
+        $groupName = $node->getGroupName();
 
         $group = new SourceGroup($groupName);
 
@@ -67,6 +76,13 @@ class SourceParser implements SourceParserInterface
         return $group;
     }
 
+    /**
+     * @param Crawler               $html
+     * @param TemplateNodeInterface $node
+     * @param SourceRowInterface    $row
+     * @return void
+     * @throws SourceParsingException
+     */
     protected function addToRow(
         Crawler $html,
         TemplateNodeInterface $node,
@@ -78,7 +94,11 @@ class SourceParser implements SourceParserInterface
             if ($child->isGroup()) {
                 $group = $this->makeGroup($html, $child);
 
-                $row->addGroup($group);
+                try {
+                    $row->addGroup($group);
+                } catch (SourceRowGroupAlreadyExistsException $exception) {
+                    throw new SourceParsingException($exception);
+                }
 
                 continue;
             }

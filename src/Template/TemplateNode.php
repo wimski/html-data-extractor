@@ -55,14 +55,14 @@ class TemplateNode implements TemplateNodeInterface
 
     public function addChild(TemplateNodeInterface $child): void
     {
-        if ($this->childWithSelectorExists($child)) {
+        if ($this->hasChild($child)) {
             throw new TemplateNodeChildAlreadyExistsException($this, $child);
         }
 
         $this->children[] = $child;
     }
 
-    protected function childWithSelectorExists(TemplateNodeInterface $node): bool
+    protected function hasChild(TemplateNodeInterface $node): bool
     {
         foreach ($this->children as $child) {
             if ($node->getSelector() === $child->getSelector()) {
@@ -80,14 +80,14 @@ class TemplateNode implements TemplateNodeInterface
 
     public function addData(TemplateDataInterface $data): void
     {
-        if ($this->dataWithPlaceholderExists($data)) {
+        if ($this->hasData($data)) {
             throw new TemplateNodeDataAlreadyExistsException($this, $data);
         }
 
         $this->data[] = $data;
     }
 
-    protected function dataWithPlaceholderExists(TemplateDataInterface $data): bool
+    protected function hasData(TemplateDataInterface $data): bool
     {
         foreach ($this->data as $item) {
             if ($data->getPlaceholder() === $item->getPlaceholder()) {
