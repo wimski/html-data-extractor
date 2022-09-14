@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Wimski\HtmlDataExtractor\Template;
+namespace Wimski\HtmlDataExtractor\Matching;
 
-use Wimski\HtmlDataExtractor\Contracts\PregMatchInterface;
-use Wimski\HtmlDataExtractor\PregMatch;
+use Wimski\HtmlDataExtractor\Contracts\Matching\PregMatchInterface;
 
 trait MatchesValues
 {

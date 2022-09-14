@@ -7,7 +7,7 @@ namespace Wimski\HtmlDataExtractor\Template;
 use DOMAttr;
 use DOMNamedNodeMap;
 use DOMNode;
-use Wimski\HtmlDataExtractor\Contracts\Template\PlaceholderMatcherInterface;
+use Wimski\HtmlDataExtractor\Contracts\Matching\PlaceholderMatcherInterface;
 use Wimski\HtmlDataExtractor\Contracts\Template\TemplateAttributeDataInterface;
 use Wimski\HtmlDataExtractor\Contracts\Template\TemplateDataExtractorInterface;
 use Wimski\HtmlDataExtractor\Contracts\Template\TemplateTextDataInterface;
@@ -15,7 +15,7 @@ use Wimski\HtmlDataExtractor\Contracts\Template\TemplateTextDataInterface;
 class TemplateDataExtractor implements TemplateDataExtractorInterface
 {
     public function __construct(
-        protected PlaceholderMatcherInterface $placeholderMatcher,
+        protected \Wimski\HtmlDataExtractor\Contracts\Matching\PlaceholderMatcherInterface $placeholderMatcher,
     ) {
     }
 

@@ -6,7 +6,7 @@ namespace Wimski\HtmlDataExtractor\Template;
 
 use DOMNode;
 use Wimski\HtmlDataExtractor\Contracts\HtmlLoaderInterface;
-use Wimski\HtmlDataExtractor\Contracts\Template\GroupMatcherInterface;
+use Wimski\HtmlDataExtractor\Contracts\Matching\GroupMatcherInterface;
 use Wimski\HtmlDataExtractor\Contracts\Template\TemplateValidatorInterface;
 use Wimski\HtmlDataExtractor\Exceptions\TemplateValidationException;
 

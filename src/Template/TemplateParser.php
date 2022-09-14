@@ -6,7 +6,7 @@ namespace Wimski\HtmlDataExtractor\Template;
 
 use DOMNode;
 use Wimski\HtmlDataExtractor\Contracts\Factories\SelectorFactoryInterface;
-use Wimski\HtmlDataExtractor\Contracts\Template\GroupMatcherInterface;
+use Wimski\HtmlDataExtractor\Contracts\Matching\GroupMatcherInterface;
 use Wimski\HtmlDataExtractor\Contracts\Template\TemplateDataExtractorInterface;
 use Wimski\HtmlDataExtractor\Contracts\Template\TemplateNodeInterface;
 use Wimski\HtmlDataExtractor\Contracts\Template\TemplateParserInterface;
