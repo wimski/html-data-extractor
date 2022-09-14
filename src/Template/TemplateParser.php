@@ -63,7 +63,6 @@ class TemplateParser implements TemplateParserInterface
 
         $templateNode = $this->makeTemplateNode($node);
 
-        $templateNode->setParent($parent);
         $parent->addChild($templateNode);
 
         $previous = $node->previousSibling;
