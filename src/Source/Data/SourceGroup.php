@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Wimski\HtmlDataExtractor\Source;
+namespace Wimski\HtmlDataExtractor\Source\Data;
 
-use Wimski\HtmlDataExtractor\Contracts\Source\SourceGroupInterface;
-use Wimski\HtmlDataExtractor\Contracts\Source\SourceRowInterface;
+use Wimski\HtmlDataExtractor\Contracts\Source\Data\SourceGroupInterface;
+use Wimski\HtmlDataExtractor\Contracts\Source\Data\SourceRowInterface;
 
 class SourceGroup implements SourceGroupInterface
 {

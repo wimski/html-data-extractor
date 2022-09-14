@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Wimski\HtmlDataExtractor\Source;
 
 use Symfony\Component\DomCrawler\Crawler;
-use Wimski\HtmlDataExtractor\Contracts\Source\SourceGroupInterface;
+use Wimski\HtmlDataExtractor\Contracts\Source\Data\SourceGroupInterface;
+use Wimski\HtmlDataExtractor\Contracts\Source\Data\SourceRowInterface;
 use Wimski\HtmlDataExtractor\Contracts\Source\SourceParserInterface;
-use Wimski\HtmlDataExtractor\Contracts\Source\SourceRowInterface;
 use Wimski\HtmlDataExtractor\Contracts\Template\Data\TemplateAttributeDataInterface;
 use Wimski\HtmlDataExtractor\Contracts\Template\Data\TemplateTextDataInterface;
 use Wimski\HtmlDataExtractor\Contracts\Template\TemplateNodeInterface;
+use Wimski\HtmlDataExtractor\Source\Data\SourceGroup;
+use Wimski\HtmlDataExtractor\Source\Data\SourceRow;
 
 class SourceParser implements SourceParserInterface
 {

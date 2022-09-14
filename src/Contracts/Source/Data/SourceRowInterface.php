@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Wimski\HtmlDataExtractor\Contracts\Source;
+namespace Wimski\HtmlDataExtractor\Contracts\Source\Data;
 
 use Wimski\HtmlDataExtractor\Exceptions\ExtractionDataNotFoundException;
 use Wimski\HtmlDataExtractor\Exceptions\ExtractionGroupNotFoundException;
@@ -14,7 +14,6 @@ interface SourceRowInterface
      * @return array<int, SourceGroupInterface>
      */
     public function getGroups(): array;
-    public function hasGroups(): bool;
     public function addGroup(SourceGroupInterface $group): void;
 
     /**
@@ -28,7 +27,6 @@ interface SourceRowInterface
      * @return array<int, SourceDataInterface>
      */
     public function getData(): array;
-    public function hasData(): bool;
     public function addData(string $placeholder, string $value): SourceDataInterface;
 
     /**

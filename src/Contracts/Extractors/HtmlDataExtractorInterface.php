@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Wimski\HtmlDataExtractor\Contracts\Extractors;
 
-use Wimski\HtmlDataExtractor\Contracts\Source\SourceRowInterface;
+use Wimski\HtmlDataExtractor\Contracts\Source\Data\SourceRowInterface;
 use Wimski\HtmlDataExtractor\Exceptions\HtmlDataExtractionException;
 
 interface HtmlDataExtractorInterface

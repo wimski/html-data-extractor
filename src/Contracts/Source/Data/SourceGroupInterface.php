@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Wimski\HtmlDataExtractor\Contracts\Source;
+namespace Wimski\HtmlDataExtractor\Contracts\Source\Data;
 
 interface SourceGroupInterface
 {
