@@ -8,9 +8,10 @@ use DOMAttr;
 use DOMNamedNodeMap;
 use DOMNode;
 use Wimski\HtmlDataExtractor\Contracts\Matching\PlaceholderMatcherInterface;
-use Wimski\HtmlDataExtractor\Contracts\Template\TemplateAttributeDataInterface;
+use Wimski\HtmlDataExtractor\Contracts\Template\Data\TemplateAttributeDataInterface;
 use Wimski\HtmlDataExtractor\Contracts\Template\TemplateDataExtractorInterface;
-use Wimski\HtmlDataExtractor\Contracts\Template\TemplateTextDataInterface;
+use Wimski\HtmlDataExtractor\Template\Data\TemplateAttributeData;
+use Wimski\HtmlDataExtractor\Template\Data\TemplateTextData;
 
 class TemplateDataExtractor implements TemplateDataExtractorInterface
 {
@@ -35,7 +36,7 @@ class TemplateDataExtractor implements TemplateDataExtractorInterface
         );
     }
 
-    protected function getTextData(DOMNode $node): ?TemplateTextDataInterface
+    protected function getTextData(DOMNode $node): ?\Wimski\HtmlDataExtractor\Contracts\Template\Data\TemplateTextDataInterface
     {
         $firstChild = $node->firstChild;
 
@@ -58,7 +59,7 @@ class TemplateDataExtractor implements TemplateDataExtractorInterface
 
     /**
      * @param DOMNode $node
-     * @return array<int, TemplateAttributeDataInterface>
+     * @return array<int, \Wimski\HtmlDataExtractor\Contracts\Template\Data\TemplateAttributeDataInterface>
      */
     protected function getAttributesData(DOMNode $node): array
     {

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Wimski\HtmlDataExtractor\Contracts\Template;
 
+use Wimski\HtmlDataExtractor\Contracts\Template\Data\TemplateDataInterface;
+
 interface TemplateNodeInterface
 {
     public function getSelector(): string;
