@@ -9,10 +9,19 @@ This changelog is initialized in release 1.0.0
 
 ## [Unreleased]
 
+## [2.0.0] - 2022-09-14
+
+### Added
+* Grouping
+
+### Changed
+* Complete overhaul
+
 ## [1.1.0] - 2022-08-23
 
 ### Added
 * Possibility to limit generated selectors
 
-[Unreleased]: https://github.com/wimski/html-data-extractor/compare/1.1.0...master
+[Unreleased]: https://github.com/wimski/html-data-extractor/compare/2.0.0...master
+[2.0.0]: https://github.com/wimski/html-data-extractor/compare/1.1.0...2.0.0
 [1.1.0]: https://github.com/wimski/html-data-extractor/compare/1.0.0...1.1.0
