@@ -31,23 +31,23 @@ class TemplateParser implements TemplateParserInterface
     {
         $this->validator->validate($template);
 
-        $node = $this->templateRootNodeExtractor->extract($template);
+        $domNode = $this->templateRootNodeExtractor->extract($template);
 
-        return $this->makeTemplateNode($node);
+        return $this->makeTemplateNode($domNode);
     }
 
     /**
-     * @param DOMNode $node
+     * @param DOMNode $domNode
      * @return TemplateNodeInterface
      * @throws TemplateParsingException
      */
-    protected function makeTemplateNode(DOMNode $node): TemplateNodeInterface
+    protected function makeTemplateNode(DOMNode $domNode): TemplateNodeInterface
     {
         $templateNode = new TemplateNode(
-            $this->selectorFactory->make($node),
+            $this->selectorFactory->make($domNode),
         );
 
-        $data = $this->templateDataExtractor->extract($node);
+        $data = $this->templateDataExtractor->extract($domNode);
 
         foreach ($data as $item) {
             try {
@@ -57,7 +57,7 @@ class TemplateParser implements TemplateParserInterface
             }
         }
 
-        $firstChild = $node->firstChild;
+        $firstChild = $domNode->firstChild;
 
         if ($firstChild) {
             $this->parseNode($firstChild, $templateNode);
@@ -67,19 +67,20 @@ class TemplateParser implements TemplateParserInterface
     }
 
     /**
-     * @param DOMNode               $node
+     * @param DOMNode               $domNode
      * @param TemplateNodeInterface $parent
      * @return void
      * @throws TemplateParsingException
      */
-    protected function parseNode(DOMNode $node, TemplateNodeInterface $parent): void
+    protected function parseNode(DOMNode $domNode, TemplateNodeInterface $parent): void
     {
-        if ($node->nodeType !== XML_ELEMENT_NODE) {
-            $this->parseNextTemplateNode($node, $parent);
+        if ($domNode->nodeType !== XML_ELEMENT_NODE) {
+            $this->parseNextTemplateNode($domNode, $parent);
+
             return;
         }
 
-        $templateNode = $this->makeTemplateNode($node);
+        $templateNode = $this->makeTemplateNode($domNode);
 
         try {
             $parent->addChild($templateNode);
@@ -87,11 +88,17 @@ class TemplateParser implements TemplateParserInterface
             throw new TemplateParsingException($exception);
         }
 
-        $previous = $node->previousSibling;
+        $domNode = $this->markTemplateNodeAsGroup($domNode, $templateNode);
+
+        $this->parseNextTemplateNode($domNode, $parent);
+    }
+
+    protected function markTemplateNodeAsGroup(DOMNode $domNode, TemplateNodeInterface $templateNode): DOMNode
+    {
+        $previous = $domNode->previousSibling;
 
         if (! $previous || $previous->nodeType !== XML_TEXT_NODE) {
-            $this->parseNextTemplateNode($node, $parent);
-            return;
+            return $domNode;
         }
 
         /** @var string $nodeValue */
@@ -100,21 +107,23 @@ class TemplateParser implements TemplateParserInterface
         $match = $this->groupMatcher->getGroupStartMatch($nodeValue);
 
         if (! $match) {
-            $this->parseNextTemplateNode($node, $parent);
-            return;
+            return $domNode;
         }
 
         $templateNode->makeGroup($match->getPartialMatch());
 
-        $nextNode = $node->nextSibling;
+        /** @var DOMNode $next */
+        $next = $domNode->nextSibling;
 
-        if (! $nextNode) {
-            return;
-        }
-
-        $this->parseNextTemplateNode($nextNode, $parent);
+        return $next;
     }
 
+    /**
+     * @param DOMNode               $node
+     * @param TemplateNodeInterface $parent
+     * @return void
+     * @throws TemplateParsingException
+     */
     protected function parseNextTemplateNode(DOMNode $node, TemplateNodeInterface $parent): void
     {
         $nextNode = $node->nextSibling;

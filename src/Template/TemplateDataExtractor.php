@@ -9,6 +9,7 @@ use DOMNamedNodeMap;
 use DOMNode;
 use Wimski\HtmlDataExtractor\Contracts\Matching\PlaceholderMatcherInterface;
 use Wimski\HtmlDataExtractor\Contracts\Template\Data\TemplateAttributeDataInterface;
+use Wimski\HtmlDataExtractor\Contracts\Template\Data\TemplateTextDataInterface;
 use Wimski\HtmlDataExtractor\Contracts\Template\TemplateDataExtractorInterface;
 use Wimski\HtmlDataExtractor\Template\Data\TemplateAttributeData;
 use Wimski\HtmlDataExtractor\Template\Data\TemplateTextData;
@@ -22,48 +23,49 @@ class TemplateDataExtractor implements TemplateDataExtractorInterface
 
     public function extract(DOMNode $node): array
     {
-        $data = [];
-
-        $textData = $this->getTextData($node);
-
-        if ($textData) {
-            $data[] = $textData;
+        if ($node->nodeType !== XML_ELEMENT_NODE) {
+            return [];
         }
 
         return array_merge(
-            $data,
-            $this->getAttributesData($node),
+            $this->getTextData($node),
+            $this->getAttributeData($node),
         );
-    }
-
-    protected function getTextData(DOMNode $node): ?\Wimski\HtmlDataExtractor\Contracts\Template\Data\TemplateTextDataInterface
-    {
-        $firstChild = $node->firstChild;
-
-        if (! $firstChild) {
-            return null;
-        }
-
-        if ($firstChild->nodeType !== XML_TEXT_NODE) {
-            return null;
-        }
-
-        $match = $this->placeholderMatcher->getPlaceholderMatch($firstChild->textContent);
-
-        if (! $match) {
-            return null;
-        }
-
-        return new TemplateTextData($match->getPartialMatch());
     }
 
     /**
      * @param DOMNode $node
-     * @return array<int, \Wimski\HtmlDataExtractor\Contracts\Template\Data\TemplateAttributeDataInterface>
+     * @return array<int, TemplateTextDataInterface>
      */
-    protected function getAttributesData(DOMNode $node): array
+    protected function getTextData(DOMNode $node): array
     {
-        $placeholders = [];
+        $data = [];
+
+        /** @var DOMNode $childNode */
+        foreach ($node->childNodes as $childNode) {
+            if ($childNode->nodeType !== XML_TEXT_NODE) {
+                continue;
+            }
+
+            $match = $this->placeholderMatcher->getPlaceholderMatch($childNode->textContent);
+
+            if (! $match) {
+                continue;
+            }
+
+            $data[] = new TemplateTextData($match->getPartialMatch());
+        }
+
+        return $data;
+    }
+
+    /**
+     * @param DOMNode $node
+     * @return array<int, TemplateAttributeDataInterface>
+     */
+    protected function getAttributeData(DOMNode $node): array
+    {
+        $data = [];
 
         /** @var DOMNamedNodeMap $attributes */
         $attributes = $node->attributes;
@@ -76,12 +78,12 @@ class TemplateDataExtractor implements TemplateDataExtractorInterface
                 continue;
             }
 
-            $placeholders[] = new TemplateAttributeData(
+            $data[] = new TemplateAttributeData(
                 $match->getPartialMatch(),
                 $attribute->name,
             );
         }
 
-        return $placeholders;
+        return $data;
     }
 }

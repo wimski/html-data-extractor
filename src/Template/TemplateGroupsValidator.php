@@ -97,15 +97,17 @@ class TemplateGroupsValidator implements TemplateValidatorInterface
         // The element node
         // must always be followed
         // by a group end tag
-        if (
-            ! $groupEndNode
-            || $groupEndNode->nodeType !== XML_TEXT_NODE
-            || ! $groupEndNode->nodeValue
-            || ! $this->groupMatcher->matchesGroupEnd($groupEndNode->nodeValue)
-        ) {
+        if (! $groupEndNode || ! $this->nodeIsGroupEnd($groupEndNode)) {
             throw new TemplateValidationException('Missing group end tag after element node');
         }
 
         return $groupEndNode;
+    }
+
+    protected function nodeIsGroupEnd(DOMNode $node): bool
+    {
+        return $node->nodeType === XML_TEXT_NODE
+            && $node->nodeValue
+            && $this->groupMatcher->matchesGroupEnd($node->nodeValue);
     }
 }
