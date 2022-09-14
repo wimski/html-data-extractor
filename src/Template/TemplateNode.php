@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Wimski\HtmlDataExtractor\Template;
 
-use Wimski\HtmlDataExtractor\Contracts\Template\TemplateDataInterface;
+use Wimski\HtmlDataExtractor\Contracts\Template\Data\TemplateDataInterface;
 use Wimski\HtmlDataExtractor\Contracts\Template\TemplateNodeInterface;
 
 class TemplateNode implements TemplateNodeInterface
@@ -18,7 +18,7 @@ class TemplateNode implements TemplateNodeInterface
     protected array $children = [];
 
     /**
-     * @var array<int, TemplateDataInterface>
+     * @var array<int, \Wimski\HtmlDataExtractor\Contracts\Template\Data\TemplateDataInterface>
      */
     protected array $data = [];
 
@@ -95,7 +95,7 @@ class TemplateNode implements TemplateNodeInterface
             'nodes'    => array_map(function (TemplateNodeInterface $node): array {
                 return $node->toArray();
             }, $this->children),
-            'data' => array_map(function (TemplateDataInterface $data): string {
+            'data'     => array_map(function (TemplateDataInterface $data): string {
                 return $data->getPlaceholder();
             }, $this->data),
         ];

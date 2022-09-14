@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Wimski\HtmlDataExtractor\Template;
+namespace Wimski\HtmlDataExtractor\Template\Data;
 
-use Wimski\HtmlDataExtractor\Contracts\Template\TemplateAttributeDataInterface;
+use Wimski\HtmlDataExtractor\Contracts\Template\Data\TemplateAttributeDataInterface;
 
 class TemplateAttributeData extends AbstractTemplateData implements TemplateAttributeDataInterface
 {

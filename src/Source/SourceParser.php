@@ -8,9 +8,9 @@ use Symfony\Component\DomCrawler\Crawler;
 use Wimski\HtmlDataExtractor\Contracts\Source\SourceGroupInterface;
 use Wimski\HtmlDataExtractor\Contracts\Source\SourceParserInterface;
 use Wimski\HtmlDataExtractor\Contracts\Source\SourceRowInterface;
-use Wimski\HtmlDataExtractor\Contracts\Template\TemplateAttributeDataInterface;
+use Wimski\HtmlDataExtractor\Contracts\Template\Data\TemplateAttributeDataInterface;
+use Wimski\HtmlDataExtractor\Contracts\Template\Data\TemplateTextDataInterface;
 use Wimski\HtmlDataExtractor\Contracts\Template\TemplateNodeInterface;
-use Wimski\HtmlDataExtractor\Contracts\Template\TemplateTextDataInterface;
 
 class SourceParser implements SourceParserInterface
 {
