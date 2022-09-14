@@ -6,6 +6,8 @@ namespace Wimski\HtmlDataExtractor\Template;
 
 use Wimski\HtmlDataExtractor\Contracts\Template\Data\TemplateDataInterface;
 use Wimski\HtmlDataExtractor\Contracts\Template\TemplateNodeInterface;
+use Wimski\HtmlDataExtractor\Exceptions\TemplateNodeChildAlreadyExistsException;
+use Wimski\HtmlDataExtractor\Exceptions\TemplateNodeDataAlreadyExistsException;
 
 class TemplateNode implements TemplateNodeInterface
 {
@@ -53,7 +55,22 @@ class TemplateNode implements TemplateNodeInterface
 
     public function addChild(TemplateNodeInterface $child): void
     {
+        if ($this->childWithSelectorExists($child)) {
+            throw new TemplateNodeChildAlreadyExistsException($this, $child);
+        }
+
         $this->children[] = $child;
+    }
+
+    protected function childWithSelectorExists(TemplateNodeInterface $node): bool
+    {
+        foreach ($this->children as $child) {
+            if ($node->getSelector() === $child->getSelector()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function getData(): array
@@ -63,7 +80,22 @@ class TemplateNode implements TemplateNodeInterface
 
     public function addData(TemplateDataInterface $data): void
     {
+        if ($this->dataWithPlaceholderExists($data)) {
+            throw new TemplateNodeDataAlreadyExistsException($this, $data);
+        }
+
         $this->data[] = $data;
+    }
+
+    protected function dataWithPlaceholderExists(TemplateDataInterface $data): bool
+    {
+        foreach ($this->data as $item) {
+            if ($data->getPlaceholder() === $item->getPlaceholder()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function toArray(): array
