@@ -14,9 +14,6 @@ interface TemplateNodeInterface
     public function isGroup(): bool;
     public function getGroupName(): ?string;
 
-    public function getParent(): ?TemplateNodeInterface;
-    public function setParent(TemplateNodeInterface $parent): void;
-
     /**
      * @return array<int, TemplateNodeInterface>
      */

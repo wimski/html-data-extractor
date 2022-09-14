@@ -10,7 +10,6 @@ use Wimski\HtmlDataExtractor\Contracts\Template\TemplateNodeInterface;
 class TemplateNode implements TemplateNodeInterface
 {
     protected ?string $groupName = null;
-    protected ?TemplateNodeInterface $parent = null;
 
     /**
      * @var array<int, TemplateNodeInterface>
@@ -18,7 +17,7 @@ class TemplateNode implements TemplateNodeInterface
     protected array $children = [];
 
     /**
-     * @var array<int, \Wimski\HtmlDataExtractor\Contracts\Template\Data\TemplateDataInterface>
+     * @var array<int, TemplateDataInterface>
      */
     protected array $data = [];
 
@@ -45,16 +44,6 @@ class TemplateNode implements TemplateNodeInterface
     public function getGroupName(): ?string
     {
         return $this->groupName;
-    }
-
-    public function getParent(): ?TemplateNodeInterface
-    {
-        return $this->parent;
-    }
-
-    public function setParent(TemplateNodeInterface $parent): void
-    {
-        $this->parent = $parent;
     }
 
     public function getChildren(): array
