@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Wimski\HtmlDataExtractor\Template;
+namespace Wimski\HtmlDataExtractor\Matching;
 
-use Wimski\HtmlDataExtractor\Contracts\PregMatchInterface;
-use Wimski\HtmlDataExtractor\Contracts\Template\PlaceholderMatcherInterface;
+use Wimski\HtmlDataExtractor\Contracts\Matching\PlaceholderMatcherInterface;
+use Wimski\HtmlDataExtractor\Contracts\Matching\PregMatchInterface;
 
 class PlaceholderMatcher implements PlaceholderMatcherInterface
 {

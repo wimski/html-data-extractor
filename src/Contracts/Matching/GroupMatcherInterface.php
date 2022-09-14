@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Wimski\HtmlDataExtractor\Contracts\Template;
-
-use Wimski\HtmlDataExtractor\Contracts\PregMatchInterface;
+namespace Wimski\HtmlDataExtractor\Contracts\Matching;
 
 interface GroupMatcherInterface
 {

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Wimski\HtmlDataExtractor;
+namespace Wimski\HtmlDataExtractor\Matching;
 
-use Wimski\HtmlDataExtractor\Contracts\PregMatchInterface;
+use Wimski\HtmlDataExtractor\Contracts\Matching\PregMatchInterface;
 
 class PregMatch implements PregMatchInterface
 {

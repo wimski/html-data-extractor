@@ -8,7 +8,7 @@ use DOMAttr;
 use DOMNamedNodeMap;
 use DOMNode;
 use Wimski\HtmlDataExtractor\Contracts\Factories\SelectorFactoryInterface;
-use Wimski\HtmlDataExtractor\Contracts\Template\PlaceholderMatcherInterface;
+use Wimski\HtmlDataExtractor\Contracts\Matching\PlaceholderMatcherInterface;
 
 class SelectorFactory implements SelectorFactoryInterface
 {

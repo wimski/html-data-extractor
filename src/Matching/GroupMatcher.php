@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Wimski\HtmlDataExtractor\Template;
+namespace Wimski\HtmlDataExtractor\Matching;
 
-use Wimski\HtmlDataExtractor\Contracts\PregMatchInterface;
-use Wimski\HtmlDataExtractor\Contracts\Template\GroupMatcherInterface;
+use Wimski\HtmlDataExtractor\Contracts\Matching\GroupMatcherInterface;
+use Wimski\HtmlDataExtractor\Contracts\Matching\PregMatchInterface;
 
 class GroupMatcher implements GroupMatcherInterface
 {
