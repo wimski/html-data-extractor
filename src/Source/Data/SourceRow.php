@@ -7,7 +7,9 @@ namespace Wimski\HtmlDataExtractor\Source\Data;
 use Wimski\HtmlDataExtractor\Contracts\Source\Data\SourceDataInterface;
 use Wimski\HtmlDataExtractor\Contracts\Source\Data\SourceGroupInterface;
 use Wimski\HtmlDataExtractor\Contracts\Source\Data\SourceRowInterface;
+use Wimski\HtmlDataExtractor\Exceptions\SourceRowDataDoesNotExistException;
 use Wimski\HtmlDataExtractor\Exceptions\SourceRowGroupAlreadyExistsException;
+use Wimski\HtmlDataExtractor\Exceptions\SourceRowGroupDoesNotExistException;
 
 class SourceRow implements SourceRowInterface
 {
@@ -24,6 +26,17 @@ class SourceRow implements SourceRowInterface
     public function getGroups(): array
     {
         return $this->groups;
+    }
+
+    public function getGroupByName(string $name): SourceGroupInterface
+    {
+        foreach ($this->groups as $group) {
+            if ($group->getName() === $name) {
+                return $group;
+            }
+        }
+
+        throw new SourceRowGroupDoesNotExistException($this, $name);
     }
 
     public function addGroup(SourceGroupInterface $group): void
@@ -49,6 +62,17 @@ class SourceRow implements SourceRowInterface
     public function getData(): array
     {
         return $this->data;
+    }
+
+    public function getFirstDataValueByPlaceholder(string $placeholder): string
+    {
+        foreach ($this->data as $item) {
+            if ($item->getPlaceholder() === $placeholder) {
+                return $item->getValues()[0];
+            }
+        }
+
+        throw new SourceRowDataDoesNotExistException($this, $placeholder);
     }
 
     public function addData(string $placeholder, string $value): void
