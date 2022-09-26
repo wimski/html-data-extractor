@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Wimski\HtmlDataExtractor\Contracts\Source\Data;
 
+use Wimski\HtmlDataExtractor\Exceptions\SourceRowDataDoesNotExistException;
 use Wimski\HtmlDataExtractor\Exceptions\SourceRowGroupAlreadyExistsException;
+use Wimski\HtmlDataExtractor\Exceptions\SourceRowGroupDoesNotExistException;
 
 interface SourceRowInterface
 {
@@ -12,6 +14,13 @@ interface SourceRowInterface
      * @return array<int, SourceGroupInterface>
      */
     public function getGroups(): array;
+
+    /**
+     * @param string $name
+     * @return SourceGroupInterface
+     * @throws SourceRowGroupDoesNotExistException
+     */
+    public function getGroupByName(string $name): SourceGroupInterface;
 
     /**
      * @param SourceGroupInterface $group
@@ -24,6 +33,14 @@ interface SourceRowInterface
      * @return array<int, SourceDataInterface>
      */
     public function getData(): array;
+
+    /**
+     * @param string $placeholder
+     * @return string
+     * @throws SourceRowDataDoesNotExistException
+     */
+    public function getFirstDataValueByPlaceholder(string $placeholder): string;
+
     public function addData(string $placeholder, string $value): void;
 
     /**
