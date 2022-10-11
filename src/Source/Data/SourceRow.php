@@ -64,15 +64,20 @@ class SourceRow implements SourceRowInterface
         return $this->data;
     }
 
-    public function getFirstDataValueByPlaceholder(string $placeholder): string
+    public function getDataByPlaceholder(string $placeholder): SourceDataInterface
     {
         foreach ($this->data as $item) {
             if ($item->getPlaceholder() === $placeholder) {
-                return $item->getValues()[0];
+                return $item;
             }
         }
 
         throw new SourceRowDataDoesNotExistException($this, $placeholder);
+    }
+
+    public function getFirstDataValueByPlaceholder(string $placeholder): string
+    {
+        return $this->getDataByPlaceholder($placeholder)->getValues()[0];
     }
 
     public function addData(string $placeholder, string $value): void

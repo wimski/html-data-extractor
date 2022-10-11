@@ -36,6 +36,13 @@ interface SourceRowInterface
 
     /**
      * @param string $placeholder
+     * @return SourceDataInterface
+     * @throws SourceRowDataDoesNotExistException
+     */
+    public function getDataByPlaceholder(string $placeholder): SourceDataInterface;
+
+    /**
+     * @param string $placeholder
      * @return string
      * @throws SourceRowDataDoesNotExistException
      */
