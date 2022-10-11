@@ -9,6 +9,11 @@ This changelog is initialized in release 1.0.0
 
 ## [Unreleased]
 
+## [2.2.0] - 2022-10-11
+
+### Added
+* SourceRowInterface::getDataByPlaceholder
+
 ## [2.1.0] - 2022-09-26
 
 ### Added
@@ -28,7 +33,8 @@ This changelog is initialized in release 1.0.0
 ### Added
 * Possibility to limit generated selectors
 
-[Unreleased]: https://github.com/wimski/html-data-extractor/compare/2.1.0...master
+[Unreleased]: https://github.com/wimski/html-data-extractor/compare/2.2.0...master
+[2.2.0]: https://github.com/wimski/html-data-extractor/compare/2.1.0...2.2.0
 [2.1.0]: https://github.com/wimski/html-data-extractor/compare/2.0.0...2.1.0
 [2.0.0]: https://github.com/wimski/html-data-extractor/compare/1.1.0...2.0.0
 [1.1.0]: https://github.com/wimski/html-data-extractor/compare/1.0.0...1.1.0

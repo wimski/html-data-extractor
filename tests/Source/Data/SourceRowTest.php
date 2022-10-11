@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Wimski\HtmlDataExtractor\Exceptions\SourceRowDataDoesNotExistException;
 use Wimski\HtmlDataExtractor\Exceptions\SourceRowGroupAlreadyExistsException;
 use Wimski\HtmlDataExtractor\Exceptions\SourceRowGroupDoesNotExistException;
+use Wimski\HtmlDataExtractor\Source\Data\SourceData;
 use Wimski\HtmlDataExtractor\Source\Data\SourceGroup;
 use Wimski\HtmlDataExtractor\Source\Data\SourceRow;
 
@@ -63,6 +64,30 @@ class SourceRowTest extends TestCase
     /**
      * @test
      */
+    public function it_gets_data_by_placeholder(): void
+    {
+        $this->row->addData('foo', 'bar');
+
+        $data = $this->row->getDataByPlaceholder('foo');
+
+        self::assertInstanceOf(SourceData::class, $data);
+        self::assertSame('foo', $data->getPlaceholder());
+        self::assertSame(['bar'], $data->getValues());
+    }
+
+    /**
+     * @test
+     */
+    public function it_throws_an_exception_when_data_cannot_be_found_by_placeholder(): void
+    {
+        self::expectException(SourceRowDataDoesNotExistException::class);
+
+        $this->row->getDataByPlaceholder('foo');
+    }
+
+    /**
+     * @test
+     */
     public function it_gets_the_first_data_value_by_placeholder(): void
     {
         $this->row->addData('foo', 'bar');
@@ -74,7 +99,7 @@ class SourceRowTest extends TestCase
     /**
      * @test
      */
-    public function it_throws_an_exception_when_data_cannot_be_found_by_placeholder(): void
+    public function it_throws_an_exception_when_the_first_data_value_cannot_be_found_by_placeholder(): void
     {
         self::expectException(SourceRowDataDoesNotExistException::class);
 
